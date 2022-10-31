@@ -2,7 +2,10 @@ module test
 
 go 1.17
 
-require github.com/rabbitmq/amqp091-go v1.5.0
+require (
+	github.com/jinzhu/copier v0.3.5
+	github.com/rabbitmq/amqp091-go v1.5.0
+)
 
 require (
 	github.com/PuerkitoBio/goquery v1.8.0 // indirect

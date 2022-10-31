@@ -22,6 +22,9 @@
 ## explicit; go 1.9
 # github.com/hashicorp/hcl v1.0.0
 ## explicit
+# github.com/jinzhu/copier v0.3.5
+## explicit; go 1.13
+github.com/jinzhu/copier
 # github.com/kennygrant/sanitize v1.2.4
 ## explicit
 # github.com/kylelemons/go-gypsy v1.0.0
