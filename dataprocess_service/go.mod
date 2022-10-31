@@ -4,7 +4,12 @@ go 1.17
 
 require github.com/beego/beego/v2 v2.0.1
 
-require github.com/smartystreets/goconvey v1.6.4
+require (
+	github.com/google/uuid v1.1.1
+	github.com/json-iterator/go v1.1.10
+	github.com/sirupsen/logrus v1.4.2
+	github.com/smartystreets/goconvey v1.6.4
+)
 
 require (
 	github.com/beorn7/perks v1.0.1 // indirect
@@ -13,8 +18,11 @@ require (
 	github.com/gopherjs/gopherjs v0.0.0-20181017120253-0766667cb4d1 // indirect
 	github.com/hashicorp/golang-lru v0.5.4 // indirect
 	github.com/jtolds/gls v4.20.0+incompatible // indirect
+	github.com/konsorten/go-windows-terminal-sequences v1.0.1 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.1 // indirect
 	github.com/mitchellh/mapstructure v1.3.3 // indirect
+	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
+	github.com/modern-go/reflect2 v1.0.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/client_golang v1.7.0 // indirect
 	github.com/prometheus/client_model v0.2.0 // indirect
