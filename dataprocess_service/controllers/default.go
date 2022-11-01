@@ -1,6 +1,9 @@
 package controllers
 
 import (
+	"dataprocess_service/controllers/apihelper"
+	"dataprocess_service/controllers/formbind"
+	"errors"
 	"fmt"
 	beego "github.com/beego/beego/v2/server/web"
 	"github.com/google/uuid"
@@ -23,6 +26,31 @@ func (c *MainController) Get() {
 	//logger.
 	//log.Fatal("this is Fatal")
 	c.TplName = "index.tpl"
+}
+func (c *MainController) UserRequestBody(receive interface{}) {
+	if len(c.Body) < 1 && c.Ctx.Request.MultipartForm == nil && c.Ctx.Request.Form == nil {
+		c.SendError(apihelper.KindBadRequest, "empty request body.")
+	}
+	if err := formbind.Decode(c.Ctx.Request, c.Body, receive); err != nil {
+		log.Errorf("UserRequestBody Failed:%+v %s %s", err, err.Error(), string(c.Body))
+		c.SendError(apihelper.KindBadRequest, err.Error())
+	}
+}
+
+func (c *MainController) SendError(code apihelper.ErrorKind, msg string, storeID ...int) error {
+	c.Ctx.Output.SetStatus(code.HttpStatusCode())
+	log.Errorf("ErrorCode=%d ErrorMsg=%s %s", code, msg, string(c.Body))
+	ret := &Result{
+		Code:    code.HttpStatusCode(),
+		Message: msg,
+	}
+
+	c.code = code.HttpStatusCode()
+	c.Data["json"] = ret
+	c.ServeJSON()
+	c.Finish()
+	c.StopRun()
+	return errors.New(msg)
 }
 
 type HttpData struct {
@@ -105,4 +133,22 @@ func (hook LogTrace) Fire(entry *log.Entry) error {
 		}
 	}
 	return nil
+}
+
+func (c *MainController) SuccessOutput(data interface{}, lang string) {
+	httpData := &HttpData{
+		Code: 200,
+		Data: data,
+	}
+	c.SendData(httpData)
+}
+
+func (c *MainController) SendData(data interface{}) {
+	c.Ctx.Output.Header("X-Platform-Version", "v5")
+	c.Ctx.Output.SetStatus(200)
+	c.Data["json"] = data
+	c.code = 200
+	c.ServeJSON()
+	c.Finish()
+	c.StopRun()
 }

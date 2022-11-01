@@ -1,7 +1,16 @@
 package controllers
 
-func (c *MainController) removeDoubleQuotes() {
+import (
+	"dataprocess_service/dto"
+	"fmt"
+)
 
-	//c.Data("order", p).Success()
+//@router /removeDQ [post]
+func (c *MainController) removeDoubleQuotes() {
+	params := &dto.DataQuotes{}
+	c.UserRequestBody(&params)
+	fmt.Println("check......params", params)
+
+	c.SuccessOutput(params, "")
 
 }
