@@ -1,8 +1,9 @@
-package controllers
+package auth
 
 import (
 	"dataprocess_service/controllers/apihelper"
 	"dataprocess_service/controllers/formbind"
+	"encoding/json"
 	"errors"
 	"fmt"
 	beego "github.com/beego/beego/v2/server/web"
@@ -151,4 +152,25 @@ func (c *MainController) SendData(data interface{}) {
 	c.ServeJSON()
 	c.Finish()
 	c.StopRun()
+}
+
+// RequestBody
+func (this *MainController) RequestBody() []byte {
+	return this.Ctx.Input.RequestBody
+}
+func (this *MainController) decodeRawRequestBodyJson() map[string]interface{} {
+	var mm interface{}
+	requestBody := make(map[string]interface{})
+	json.Unmarshal(this.RequestBody(), &mm)
+	if mm != nil {
+		var m1 map[string]interface{}
+		m1 = mm.(map[string]interface{})
+		for k, v := range m1 {
+			requestBody[k] = v
+		}
+	}
+	return requestBody
+}
+func (this *MainController) JsonData() map[string]interface{} {
+	return this.decodeRawRequestBodyJson()
 }
